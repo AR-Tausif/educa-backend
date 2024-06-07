@@ -10,6 +10,7 @@ import AppError from "../../errors/AppErrors";
 import { createToken, verifyToken } from "./auth.utils";
 import { TUser } from "../user/user.interface";
 import UserModel from "../user/user.model";
+import toTitleCase from "../../helper/toTitleCase";
 
 // ========>:   Create User Into Database Function   :<========
 
@@ -24,7 +25,7 @@ const createUserIntoDB = async (user: TUser) => {
   return {
     _id: result._id,
     username: result.username,
-    full_name: result.fullName,
+    full_name: toTitleCase(result.fullName),
     email: result.email,
     phone_number: result.phoneNumber,
     role: result.role,

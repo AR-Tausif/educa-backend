@@ -4,6 +4,7 @@ import { TCreateClassPayload } from "./class.interface";
 import ClassModel from "./class.model";
 import AcademicPaymentModel from "../academic-payment/academic.payment.model";
 import mongoose from "mongoose";
+import toTitleCase from "../../helper/toTitleCase";
 
 export type TErrorRes = {
   success?: boolean;
@@ -36,7 +37,12 @@ const createClassIntoDB = async (classPayload: TCreateClassPayload) => {
     session.startTransaction();
     // transection-1
     const educaClass = await ClassModel.create(
-      [{ name: classPayload.className, createdBy: classPayload.createdBy }],
+      [
+        {
+          name: toTitleCase(classPayload.className),
+          createdBy: classPayload.createdBy,
+        },
+      ],
       {
         session,
       }
@@ -94,7 +100,7 @@ const updateClassByIdIntoDB = async (classPayload: {
 }) => {
   const existClassById = await ClassModel.findByIdAndUpdate(
     classPayload.classId,
-    { name: classPayload.updatedContent.className },
+    { name: toTitleCase(classPayload.updatedContent.className) },
     { new: true }
   );
 

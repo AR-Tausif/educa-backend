@@ -3,18 +3,19 @@ import AppError from "../../errors/AppErrors";
 import StudentPaymentModel from "../payment/payment.model";
 import { TStudent } from "./student.interface";
 import StudentModel from "./student.model";
+import toTitleCase from "../../helper/toTitleCase";
 
 // ================================================
 // Craete Student Function
 // ================================================
 
-const createStudentIntoDB = async (Student: TStudent) => {
+const createStudentIntoDB = async (student: TStudent) => {
   const existStudent = await StudentModel.findOne({
-    studentName: Student.studentName,
-    class: Student.class,
-    fatherName: Student.fatherName,
-    motherName: Student.motherName,
-    dateOfBirth: Student.dateOfBirth,
+    studentName: student.studentName,
+    class: student.class,
+    fatherName: student.fatherName,
+    motherName: student.motherName,
+    dateOfBirth: student.dateOfBirth,
     isDeleted: false,
   });
 
@@ -25,7 +26,7 @@ const createStudentIntoDB = async (Student: TStudent) => {
     );
   }
 
-  const result = await StudentModel.create(Student);
+  const result = await StudentModel.create(student);
 
   const payment = await StudentPaymentModel.create({
     student: result.id,
@@ -142,7 +143,7 @@ const updateStudentDataInDB = async (_id: string, updatedData: TStudent) => {
   }
   const data = {
     classRoll: updatedData.classRoll || student.classRoll,
-    studentName: updatedData.studentName || student.studentName,
+    studentName: toTitleCase(updatedData.studentName) || student.studentName,
     dateOfBirth: updatedData.dateOfBirth || student.dateOfBirth,
     gender: updatedData.gender || student.gender,
     class: updatedData.class || student.class,
@@ -153,7 +154,7 @@ const updateStudentDataInDB = async (_id: string, updatedData: TStudent) => {
     firstLanguage: updatedData.firstLanguage || student.firstLanguage,
     presentAddress: updatedData.presentAddress || student.presentAddress,
     permanentAddress: updatedData.permanentAddress || student.permanentAddress,
-    fatherName: updatedData.fatherName || student.fatherName,
+    fatherName: toTitleCase(updatedData.fatherName) || student.fatherName,
     fatherEmail: updatedData.fatherEmail || student.fatherEmail,
     fatherPhonNumber: updatedData.fatherPhonNumber || student.fatherPhonNumber,
     fatherIDCardNumber:
@@ -161,7 +162,7 @@ const updateStudentDataInDB = async (_id: string, updatedData: TStudent) => {
     fatherProfession: updatedData.fatherProfession || student.fatherProfession,
     fatherPesignation:
       updatedData.fatherPesignation || student.fatherPesignation,
-    motherName: updatedData.motherName || student.motherName,
+    motherName: toTitleCase(updatedData.motherName) || student.motherName,
     motherEmail: updatedData.motherEmail || student.motherEmail,
     motherPhonNumber: updatedData.motherPhonNumber || student.motherPhonNumber,
     motherIDCardNumber:
