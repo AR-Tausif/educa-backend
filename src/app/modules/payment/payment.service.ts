@@ -13,27 +13,6 @@ const ObjectId = mongoose.Types.ObjectId;
 const createStudentPaymentIntoDB = async (
   paymentPayload: TStudentPaymentReqBody
 ) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // let payResult;
-  // const dataResult: string[] = [];
-
-  // const fees = Object.keys(paymentPayload.fees);
-
-  // fees.forEach(async (fee) => {
-  //   payResult = await StudentPaymentModel.create({
-  //     student: paymentPayload.student,
-  //     class: paymentPayload.class,
-  //     receivedBy: paymentPayload.receivedBy,
-  //     paymentedBy: paymentPayload.paymentedBy,
-  //     year: paymentPayload.year
-  //       ? paymentPayload.year
-  //       : new Date().getFullYear(),
-  //     [fee]: paymentPayload.fees[fee],
-  //     paymentedDate: paymentPayload.date,
-  //   });
-  //   dataResult.push(fee);
-  // });
-
   const result = await StudentPaymentModel.create({
     class: paymentPayload.class,
     year: paymentPayload.year,
@@ -43,7 +22,7 @@ const createStudentPaymentIntoDB = async (
 };
 
 const getAllStudentPaymentIntoDB = async () => {
-  const result = await StudentPaymentModel.find().populate("class");
+  const result = await StudentPaymentModel.find().populate("class").populate("receivedBy");
 
   return result;
 };
@@ -54,7 +33,7 @@ const getSingleStudentPaymentInfoByStudentIdAndClassID = async (payload: {
   const result = await StudentPaymentModel.findOne({
     student: payload.studentId,
     class: payload.classId,
-  }).populate("class");
+  }).populate("class").populate("receivedBy");
 
   return result;
 };
