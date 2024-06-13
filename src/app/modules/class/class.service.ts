@@ -32,7 +32,7 @@ const getSingleClassById = async (id: string) => {
 // API: Create single class into database
 const createClassIntoDB = async (classPayload: TCreateClassPayload) => {
   const session = await mongoose.startSession();
-  console.log(classPayload);
+
   try {
     session.startTransaction();
     // transection-1
@@ -83,7 +83,6 @@ const createClassIntoDB = async (classPayload: TCreateClassPayload) => {
       academicPayment: academicPayment.length,
     };
   } catch (error) {
-    console.log(error);
     const err = error as TErrorRes;
     await session.abortTransaction();
     await session.endSession();

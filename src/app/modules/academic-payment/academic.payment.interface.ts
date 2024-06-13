@@ -6,7 +6,6 @@ export type TAcademicPayment = {
   createdBy: Types.ObjectId;
   // fees
   yearlyMonthFees: number;
-  yearlyAccFees: number;
   admissionFees: number;
   reAdmissionFees: number;
   books: number;
@@ -30,3 +29,8 @@ export const paymentValidNames = [
   "stationeries",
   "tie",
 ] as const;
+
+export type TAccademicUpdatePayload = {
+  _id: string;
+  data: TAcademicPayment;
+};

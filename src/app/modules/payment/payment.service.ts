@@ -22,7 +22,9 @@ const createStudentPaymentIntoDB = async (
 };
 
 const getAllStudentPaymentIntoDB = async () => {
-  const result = await StudentPaymentModel.find().populate("class").populate("receivedBy");
+  const result = await StudentPaymentModel.find()
+    .populate("class")
+    .populate("receivedBy");
 
   return result;
 };
@@ -33,7 +35,9 @@ const getSingleStudentPaymentInfoByStudentIdAndClassID = async (payload: {
   const result = await StudentPaymentModel.findOne({
     student: payload.studentId,
     class: payload.classId,
-  }).populate("class").populate("receivedBy");
+  })
+    .populate("class")
+    .populate("receivedBy");
 
   return result;
 };
@@ -538,7 +542,6 @@ const getDueOfStudent = async (getDuePayload: {
 };
 
 const getNagaOfStudent = async (getDuePayload: { studentId: string }) => {
-  console.log("succed");
   const student = await StudentModel.findById(getDuePayload.studentId);
   if (!student) {
     throw new AppError(httpStatus.NOT_FOUND, "student not found");
@@ -566,7 +569,6 @@ const getNagaOfStudent = async (getDuePayload: { studentId: string }) => {
   const academicPayment = await AcademicPaymentModel.findOne({
     class: studentClass._id,
   });
-  console.log(academicPayment);
 
   if (!academicPayment) {
     throw new AppError(
@@ -574,7 +576,6 @@ const getNagaOfStudent = async (getDuePayload: { studentId: string }) => {
       `academic student is not availabe for this  class`
     );
   }
-  console.log("hola");
 
   const result = await StudentPaymentModel.aggregate([
     // pipeline -01

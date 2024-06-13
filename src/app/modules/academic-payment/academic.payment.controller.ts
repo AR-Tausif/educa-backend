@@ -11,7 +11,7 @@ const createAcademicPaymentIntoDB = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Academic Payment Created Successfully",
+    message: "academic payment created successfully",
     data: result,
   });
 });
@@ -20,7 +20,7 @@ const getAcademicPaymentFromDB = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Academic Payment are Retrieved Successfully",
+    message: "academic payment are retrieved successfully",
     data: result,
   });
 });
@@ -31,7 +31,19 @@ const getAcademicPaymentByClassIdAndYear = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Academic Payment is Retrieved by ClassId Successfully",
+    message: "academic payment is retrieved by classId successfully",
+    data: result,
+  });
+});
+const updateAcademicPaymentById = catchAsync(async (req, res) => {
+  const result = await StudentPaymentService.updateAcademicPaymentById({
+    _id: req.params._id,
+    data: req.body,
+  });
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "academic payment is updated by id successfully",
     data: result,
   });
 });
@@ -40,4 +52,5 @@ export const StudentPaymentController = {
   createAcademicPaymentIntoDB,
   getAcademicPaymentFromDB,
   getAcademicPaymentByClassIdAndYear,
+  updateAcademicPaymentById,
 };

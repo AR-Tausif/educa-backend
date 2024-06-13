@@ -6,13 +6,6 @@ import AppError from "../errors/AppErrors";
 import catchAsync from "../utils/catchAsync";
 import { TUserRole } from "../modules/user/user.interface";
 
-// Function to measure execution time of a function
-export function measureExecutionTime(callback: CallableFunction) {
-  console.time("Execution Time");
-  callback();
-  console.timeEnd("Execution Time");
-}
-
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;

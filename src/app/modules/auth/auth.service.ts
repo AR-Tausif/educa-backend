@@ -89,9 +89,11 @@ const changePassword = async (
   userData: JwtPayload,
   payload: { currentPassword: string; newPassword: string }
 ) => {
-  const user = await UserModel.findOne({ _id: userData._id }).select(
+  const user = await UserModel.findOne({ _id: userData.userId }).select(
     "+password"
   );
+
+  // console.log({ userData, payload });
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "This user is not found!");
   }
@@ -108,14 +110,10 @@ const changePassword = async (
     payload.newPassword,
     Number(config.bcrypt_salt_rounds)
   );
-  const result = await UserModel.findByIdAndUpdate(userData._id, {
+  const result = await UserModel.findByIdAndUpdate(user._id, {
     password: newHashedPassword,
-    needsPasswordChange: false,
-    passwordChangedAt: new Date(),
   }).select({
-    __v: 0,
-    currentPassword: 0,
-    newPassword: 0,
+    password: 0,
     passwordChangeHistory: 0,
   });
 

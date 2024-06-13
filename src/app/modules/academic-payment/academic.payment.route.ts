@@ -19,5 +19,9 @@ router.get(
   "/:classId",
   StudentPaymentController.getAcademicPaymentByClassIdAndYear
 );
+router.put(
+  "/_id",
+  StudentPaymentController.updateAcademicPaymentById
+);
 
 export const AcademicPaymentRoutes = router;

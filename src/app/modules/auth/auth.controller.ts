@@ -4,7 +4,6 @@ import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import { AuthServices } from "./auth.service";
 import { JwtPayload } from "jsonwebtoken";
-import config from "../../config";
 import sendResponse from "../../utils/sendResponse";
 
 // ================================================
@@ -40,7 +39,7 @@ const LoginUser = catchAsync(async (req, res) => {
   const { refreshToken, accessToken } = result;
 
   res.cookie("refreshToken", refreshToken, {
-    secure: config.node_env === "production",
+    secure: false,
     httpOnly: true,
     sameSite: "none",
     maxAge: 1000 * 60 * 60 * 24 * 365,
@@ -62,6 +61,7 @@ const LoginUser = catchAsync(async (req, res) => {
 
 const UserChangePassword = catchAsync(async (req, res) => {
   const { currentPassword, newPassword } = req.body;
+
   const result = await AuthServices.changePassword(req.username as JwtPayload, {
     currentPassword,
     newPassword,
