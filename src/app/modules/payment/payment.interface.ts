@@ -19,6 +19,7 @@ export type TStudentPaymentReqBody = {
     studyTour: number;
     examFees: number;
     picnicFees: number;
+    others: number;
   };
   discountOnFees: number;
   cashCollection: number;
@@ -65,8 +66,8 @@ export interface TStudentPayment extends Document {
   studyTour: TFieldType;
   examFees: TFieldType;
   picnicFees: TFieldType;
-
-  paymentHistory: TPaymentHistory[];
+  others: TFieldType;
+  // paymentHistory: TPaymentHistory[];
 }
 
 // export type TActualPayments = {

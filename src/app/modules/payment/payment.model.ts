@@ -42,6 +42,7 @@ const StudentPaymentSchema = new Schema<TStudentPayment>(
     stationeries: academicPaymentFeesType,
     studyTour: academicPaymentFeesType,
     tie: academicPaymentFeesType,
+    others: academicPaymentFeesType,
 
     // paymentHistory: [StudentPaymentHistory],
   },

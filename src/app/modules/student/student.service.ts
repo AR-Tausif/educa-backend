@@ -10,6 +10,7 @@ import toTitleCase from "../../helper/toTitleCase";
 // ================================================
 
 const createStudentIntoDB = async (student: TStudent) => {
+  // Check student already exist or not with name, class, fathername, mothername, date of birth and isDeleted
   const existStudent = await StudentModel.findOne({
     studentName: student.studentName,
     class: student.class,
@@ -26,8 +27,10 @@ const createStudentIntoDB = async (student: TStudent) => {
     );
   }
 
+  // Here creating student
   const result = await StudentModel.create(student);
 
+  // Here creating student payment
   const payment = await StudentPaymentModel.create({
     student: result.id,
     class: result.class,
@@ -42,6 +45,7 @@ const createStudentIntoDB = async (student: TStudent) => {
     studyTour: { amount: 0, date: "" },
     examFees: { amount: 0, date: "" },
     picnicFees: { amount: 0, date: "" },
+    others: { amount: 0, date: "" },
   });
   return { result, payment };
 };

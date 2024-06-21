@@ -13,6 +13,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const createStudentPaymentIntoDB = async (
   paymentPayload: TStudentPaymentReqBody
 ) => {
+  // We are basically create payment when creating student. Please go student.service.ts bussness file.
   const result = await StudentPaymentModel.create({
     class: paymentPayload.class,
     year: paymentPayload.year,
@@ -42,20 +43,20 @@ const getSingleStudentPaymentInfoByStudentIdAndClassID = async (payload: {
   return result;
 };
 
-// TODO: using payment history in payment service file. I need to cut this code on paymentHistory module.
+// TODO: using payment history in payment service file. I need to cut this code for paste on paymentHistory module.
 const getSingleStudentPaymentHistoryInfoByStudentIdAndClassID =
   async (payload: { studentId: string; classId: string }) => {
     const existStudent = await StudentModel.findById(payload.studentId);
     const existClass = await ClassModel.findById(payload.classId);
 
     if (!existClass) {
-      throw new AppError(httpStatus.NOT_FOUND, "Oppps, class not found");
+      throw new AppError(httpStatus.NOT_FOUND, "class not found");
     }
     if (!existStudent) {
-      throw new AppError(httpStatus.NOT_FOUND, "Oppps, student not found");
+      throw new AppError(httpStatus.NOT_FOUND, "student not found");
     }
     if (existStudent.isDeleted) {
-      throw new AppError(httpStatus.NOT_FOUND, "Oppps, student deleted");
+      throw new AppError(httpStatus.NOT_FOUND, "student deleted");
     }
     const studentPaymentHistory = await PaymentHistoryModel.find({
       student: existStudent._id,
@@ -65,7 +66,7 @@ const getSingleStudentPaymentHistoryInfoByStudentIdAndClassID =
     if (!studentPaymentHistory) {
       throw new AppError(
         httpStatus.NOT_FOUND,
-        "Oppps, student payment history not found"
+        "student payment history not found"
       );
     }
 
@@ -86,6 +87,7 @@ const updateStudentPaymentIntoDB = async (
     studyTour,
     examFees,
     picnicFees,
+    others,
   } = paymentPayload.fees;
 
   const existStudent = await StudentModel.findById(paymentPayload.student);
@@ -105,9 +107,11 @@ const updateStudentPaymentIntoDB = async (
   if (!paymentDetails) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      "Payment details not found for the student and class"
+      "payment details not found for the student and class. please create first"
     );
   }
+
+  // Here updating payment amount
 
   paymentDetails.lastPaymentedDate = paymentPayload.lastPaymentedDate;
   // paymentDetails.yearlyMonthFees.push({
@@ -125,8 +129,10 @@ const updateStudentPaymentIntoDB = async (
   paymentDetails.studyTour.amount += studyTour || 0;
   paymentDetails.examFees.amount += examFees || 0;
   paymentDetails.picnicFees.amount += picnicFees || 0;
+  paymentDetails.others.amount += others || 0;
   paymentDetails.save();
 
+  // Here creating another model for tracking payment history
   await PaymentHistoryModel.create({
     ...paymentPayload.fees,
     date: paymentPayload.lastPaymentedDate,
@@ -147,6 +153,7 @@ const updateStudentPaymentIntoDB = async (
   return paymentDetails;
 };
 
+// This function blocked for situation. But you can check "$getNagaOfStudent" function for utilize
 const getDueOfStudent = async (getDuePayload: {
   studentId: string;
   classId: string;
