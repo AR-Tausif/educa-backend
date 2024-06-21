@@ -180,6 +180,7 @@ const countingDocument = async () => {
     ClassModel.countDocuments(),
     StudentPaymentModel.countDocuments(),
     PaymentHistoryModel.countDocuments(),
+    // Here do the sum for getting all cashCollection amount.
     PaymentHistoryModel.aggregate([
       {
         $group: {
