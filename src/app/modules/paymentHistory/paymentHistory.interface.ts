@@ -18,6 +18,7 @@ export type TPaymentHistory = {
   stationeries: number;
   studyTour: number;
   tie: number;
+  others: number;
   discountOnFees: number;
   cashCollection: number;
 };

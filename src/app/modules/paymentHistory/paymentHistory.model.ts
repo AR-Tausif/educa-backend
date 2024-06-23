@@ -25,6 +25,7 @@ const studentPaymentHistorySchema = new Schema<TPaymentHistory>(
     tie: { type: Number, default: 0 },
     discountOnFees: { type: Number, default: 0 },
     cashCollection: { type: Number, default: 0 },
+    others: { type: Number, default: 0 },
   },
   { timestamps: true, versionKey: false }
 );
