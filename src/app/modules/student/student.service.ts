@@ -67,7 +67,9 @@ const getAllStudentFromDB = async () => {
       motherName: 1,
       gender: 1,
     }
-  ).populate("class");
+  )
+    .sort({ createdAt: -1 })
+    .populate("class");
   return result;
 };
 

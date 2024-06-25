@@ -31,4 +31,6 @@ export type TStudent = {
   motherIDCardNumber: string;
   motherProfession: string;
   motherPesignation: string;
+
+  status: string;
 };

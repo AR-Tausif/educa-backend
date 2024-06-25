@@ -30,6 +30,12 @@ const StudentSchema = new Schema<TStudent>(
     motherIDCardNumber: { type: String },
     motherProfession: { type: String },
     motherPesignation: { type: String },
+
+    status: {
+      type: String,
+      enum: ["Active", "Block"],
+      default: "Active",
+    },
   },
   { timestamps: true, versionKey: false }
 );

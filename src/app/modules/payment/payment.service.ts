@@ -24,6 +24,7 @@ const createStudentPaymentIntoDB = async (
 
 const getAllStudentPaymentIntoDB = async () => {
   const result = await StudentPaymentModel.find()
+    .sort({ createdAt: -1 })
     .populate("class")
     .populate("receivedBy");
 
@@ -61,7 +62,9 @@ const getSingleStudentPaymentHistoryInfoByStudentIdAndClassID =
     const studentPaymentHistory = await PaymentHistoryModel.find({
       student: existStudent._id,
       class: existClass._id,
-    }).populate("receivedBy");
+    })
+      .sort({ createdAt: -1 })
+      .populate("receivedBy");
 
     if (!studentPaymentHistory) {
       throw new AppError(

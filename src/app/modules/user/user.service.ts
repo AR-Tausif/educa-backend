@@ -12,7 +12,9 @@ import AcademicPaymentModel from "../academic-payment/academic.payment.model";
 // get all user
 // ================================================
 const getAllUserFromDB = async () => {
-  const result = await UserModel.find({ isDeleted: false });
+  const result = await UserModel.find({ isDeleted: false }).sort({
+    createdAt: -1,
+  });
   return result;
 };
 // ================================================

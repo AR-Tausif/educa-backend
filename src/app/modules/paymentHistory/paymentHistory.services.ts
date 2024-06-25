@@ -4,6 +4,7 @@ import PaymentHistoryModel from "./paymentHistory.model";
 
 const getAllPaymentHistoryFromDB = async () => {
   const payemntHistory = await PaymentHistoryModel.find({})
+    .sort({ createdAt: -1 })
     .populate("class") // Populating the class data
     .populate({
       path: "student",

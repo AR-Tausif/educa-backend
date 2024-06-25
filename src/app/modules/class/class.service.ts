@@ -18,7 +18,7 @@ export type TErrorRes = {
 
 // API: Get all class form database
 const getAllClassFromDB = async () => {
-  const educaClass = await ClassModel.find({});
+  const educaClass = await ClassModel.find({}).sort({ createdAt: -1 });
   return educaClass;
 };
 // API: Get single class form database
