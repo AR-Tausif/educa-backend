@@ -12,6 +12,11 @@ router.get(
   UserController.getAllUser
 );
 router.patch(
+  "/edit-info",
+  auth(USER_ROLE.superAdmin),
+  UserController.editUserInfo
+);
+router.patch(
   "/make-admin/:userId",
   auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   UserController.makeAdminById

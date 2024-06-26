@@ -8,18 +8,29 @@ import StudentPaymentModel from "../payment/payment.model";
 import PaymentHistoryModel from "../paymentHistory/paymentHistory.model";
 import AcademicPaymentModel from "../academic-payment/academic.payment.model";
 
-// ================================================
-// get all user
-// ================================================
 const getAllUserFromDB = async () => {
   const result = await UserModel.find({ isDeleted: false }).sort({
     createdAt: -1,
   });
   return result;
 };
-// ================================================
-// Make admin by user id
-// ================================================
+
+const editUserInfo = async (
+  userId: string,
+  userInfo: { name: string; email: string }
+) => {
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "user not found on database");
+  }
+
+  user.fullName = userInfo.name || user.fullName;
+  user.email = userInfo.email || user.email;
+  user.save();
+
+  return { name: user.fullName, email: user.email };
+};
+
 const makeAdminById = async (userId: string) => {
   const result = await UserModel.findById(userId);
   if (!result) {
@@ -261,6 +272,7 @@ const countingDocument = async () => {
 
 export const UserServices = {
   getAllUserFromDB,
+  editUserInfo,
   makeAdminById,
   makeUserById,
   blockingUserById,

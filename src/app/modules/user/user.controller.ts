@@ -15,6 +15,18 @@ const getAllUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const editUserInfo = catchAsync(async (req, res) => {
+  const payload = { name: req.body.fullName, email: req.body.email };
+  const userId = req.username.userId;
+  console.log(userId);
+  const result = await UserServices.editUserInfo(userId, payload);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Users Received Successfully",
+    data: result,
+  });
+});
 // ================================================
 //Get All User  Function
 // ================================================
@@ -96,6 +108,7 @@ const countingDocument = catchAsync(async (req, res) => {
 
 export const UserController = {
   getAllUser,
+  editUserInfo,
   makeAdminById,
   makeUserById,
   blockingUserById,
