@@ -9,18 +9,24 @@ const router = Router();
 router.post(
   "/create-payment",
   validateRequest(PaymentValidation.createAcademicPaymentValidationSchema),
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.superAdmin),
   StudentPaymentController.createAcademicPaymentIntoDB
 );
-router.get("/", StudentPaymentController.getAcademicPaymentFromDB);
+router.get(
+  "/",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  StudentPaymentController.getAcademicPaymentFromDB
+);
 
 // Get Academic payment details by classId and year
 router.get(
   "/:classId",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   StudentPaymentController.getAcademicPaymentByClassIdAndYear
 );
 router.put(
   "/_id",
+  auth(USER_ROLE.superAdmin),
   StudentPaymentController.updateAcademicPaymentById
 );
 

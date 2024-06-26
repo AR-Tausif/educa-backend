@@ -21,8 +21,7 @@ const editUserInfo = catchAsync(async (req, res) => {
     email: req.body.email,
     password: req.body.password,
   };
-  console.log("bdy", req.body);
-  console.log("ss", payload);
+
   const userId = req.username.userId;
 
   const result = await UserServices.editUserInfo(userId, payload);

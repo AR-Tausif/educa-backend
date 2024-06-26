@@ -7,7 +7,11 @@ import { USER_ROLE } from "../auth/auth.constant";
 
 const router = express.Router();
 
-router.get("/", ClassController.getAllClassFromDB);
+router.get(
+  "/",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  ClassController.getAllClassFromDB
+);
 router.get("/:classId", ClassController.getSingleClassById);
 
 router.post(
@@ -18,14 +22,14 @@ router.post(
 );
 router.put(
   "/:classId",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin),
   validateRequest(ClassValidation.createClassValidation),
   ClassController.updateClassByIdIntoDB
 );
 
 router.delete(
   "/:classId",
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(USER_ROLE.superAdmin),
   ClassController.deleteSingleClassById
 );
 export const ClassRoutes = router;

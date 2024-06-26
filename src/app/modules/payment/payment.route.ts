@@ -21,12 +21,14 @@ router.get(
 // get single student payment info
 router.get(
   "/:classId/:studentId",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   StudentPaymentController.getSingleStudentPaymentInfoByStudentIdAndClassID
 );
 
 // get single student payment history
 router.get(
   "/single-history/:classId/:studentId",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   StudentPaymentController.getSingleStudentPaymentHistoryInfoByStudentIdAndClassID
 );
 router.patch(
@@ -37,6 +39,7 @@ router.patch(
 
 router.get(
   "/due/:classId/:studentId",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   // StudentPaymentController.getDueOfStudent
   StudentPaymentController.getNagaOfStudent
 );

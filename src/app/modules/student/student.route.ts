@@ -10,28 +10,36 @@ const router = express.Router();
 router.post(
   "/create-student",
   // upload.array("images", 50),
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.superAdmin),
 
   StudentController.createStudent
 );
 
 router.get(
   "/",
-  auth(USER_ROLE.user, USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
   StudentController.getAllStudent
 );
 
-router.get("/:studentId", StudentController.getSingleStudent);
-router.get("/class/:classId", StudentController.getStudentsByClassIdFromDB);
+router.get(
+  "/:studentId",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  StudentController.getSingleStudent
+);
+router.get(
+  "/class/:classId",
+  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  StudentController.getStudentsByClassIdFromDB
+);
 router.delete(
   "/:_id",
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.superAdmin),
   StudentController.deleteSingleStudent
 );
 
 router.put(
   "/:studentId",
-  auth(USER_ROLE.admin, USER_ROLE.superAdmin),
+  auth(USER_ROLE.superAdmin),
   validateRequest(StudentValidation.updateStudentValidationSchema),
   StudentController.updateSingleStudent
 );
