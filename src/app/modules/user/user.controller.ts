@@ -16,14 +16,20 @@ const getAllUser = catchAsync(async (req, res) => {
   });
 });
 const editUserInfo = catchAsync(async (req, res) => {
-  const payload = { name: req.body.fullName, email: req.body.email };
+  const payload = {
+    name: req.body.fullName,
+    email: req.body.email,
+    password: req.body.password,
+  };
+  console.log("bdy", req.body);
+  console.log("ss", payload);
   const userId = req.username.userId;
-  console.log(userId);
+
   const result = await UserServices.editUserInfo(userId, payload);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Users Received Successfully",
+    message: "User Info updated successfully",
     data: result,
   });
 });

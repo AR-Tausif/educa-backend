@@ -7,6 +7,7 @@ import ClassModel from "../class/class.model";
 import StudentPaymentModel from "../payment/payment.model";
 import PaymentHistoryModel from "../paymentHistory/paymentHistory.model";
 import AcademicPaymentModel from "../academic-payment/academic.payment.model";
+import bcrypt from "bcrypt";
 
 const getAllUserFromDB = async () => {
   const result = await UserModel.find({ isDeleted: false }).sort({
@@ -17,11 +18,24 @@ const getAllUserFromDB = async () => {
 
 const editUserInfo = async (
   userId: string,
-  userInfo: { name: string; email: string }
+  userInfo: { name: string; email: string; password: string }
 ) => {
-  const user = await UserModel.findById(userId);
+  const user = await UserModel.findById(userId).select("+password");
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "user not found on database");
+  }
+  console.log(userInfo);
+  const isPasswordMatch = await bcrypt.compare(
+    userInfo.password,
+    user.password
+  );
+  console.log(isPasswordMatch);
+
+  if (!isPasswordMatch) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "current password does not match. try again"
+    );
   }
 
   user.fullName = userInfo.name || user.fullName;
