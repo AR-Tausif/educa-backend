@@ -6,6 +6,7 @@ import { ClassRoutes } from "../modules/class/class.route";
 import { StudentPaymentRoutes } from "../modules/payment/payment.route";
 import { AcademicPaymentRoutes } from "../modules/academic-payment/academic.payment.route";
 import { PaymentHistoryRouter } from "../modules/paymentHistory/payemntHistory.route";
+import { ReportRouter } from "../modules/report/report.route";
 
 const router = Router();
 
@@ -43,6 +44,10 @@ const moduleRoutes = [
   {
     path: "/payment-history",
     route: PaymentHistoryRouter,
+  },
+  {
+    path: "/report",
+    route: ReportRouter,
   },
 ];
 
